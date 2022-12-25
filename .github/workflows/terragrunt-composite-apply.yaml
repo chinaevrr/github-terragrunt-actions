@@ -6,7 +6,6 @@ on:
         type: choice
         options: [LAB, DEV, QA, PPE, PROD]
       aws_region:
-        description: Region for deployment
         type: choice
         options: [us-east-1, eu-west-1 ]
 jobs:
