@@ -68,7 +68,7 @@ jobs:
       - uses: terraform-docs/gh-actions@v1.0.0
         if: ${{ steps.plan.outputs.exitcode == 2 }}
         with:
-          working-dir: "${{ inputs.working-directory }}"
+          working-dir: '${{ inputs.working-directory }}'
           output-file: GITHUB_STEP_SUMMARY
 
       - run: cat GITHUB_STEP_SUMMARY > $GITHUB_STEP_SUMMARY
