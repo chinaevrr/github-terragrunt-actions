@@ -43,8 +43,57 @@ jobs:
 
       - name: Terragrunt plan
         working-directory: ${{ inputs.working-directory }}
-        run: terragrunt plan -out tf.plan > /dev/null
+        run: terragrunt plan -out tf.plan -input=false -details-exitcode > /dev/null
 
       - name: Terragrunt show plan
         working-directory: ${{ inputs.working-directory }}
         run: terragrunt show tf.plan
+
+      - uses: actions/upload-artifact@v2
+        working-directory: ${{ inputs.working-directory }}
+        with:
+          name: terraform-plan
+          path: tf.plan
+
+  apply:
+    needs: plan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: hashicorp/setup-terraform@v2
+
+      - uses: autero1/action-terragrunt@v1.2.0
+        with:
+          terragrunt_version: 0.42.5
+      - uses: mdgreenwald/mozilla-sops-action@v1.4.0
+
+      - name: Configure CICD AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.CICD_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.CICD_AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - shell: pwsh
+        env:
+          SOPS_KMS_ARN: ${{ secrets.SOPS_KMS_ARN }}
+        run: |
+          Get-ChildItem -Filter *.enc.json -Recurse | %{ sops -d $_.FullName > ( $_.FullName -replace ".enc.json$", ".json" ) }
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.aws_region }}
+
+      - uses: actions/download-artifact@v2
+        working-directory: ${{ inputs.working-directory }}
+        with:
+          name: terraform-plan
+
+      - name: Terragrunt show plan
+        working-directory: ${{ inputs.working-directory }}
+        run: terragrunt show tf.plan
+
