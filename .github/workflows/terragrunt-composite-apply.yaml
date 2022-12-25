@@ -1,0 +1,29 @@
+name: Apply Terragrunt stack
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [LAB, DEV, QA, PPE, PROD]
+      aws_region:
+        description: Region for deployment
+        default: [us-east-1, eu-west-1 ]
+      approve_environment:
+        default: PREPROD
+jobs:
+  build-environment:
+    shell: pwsh
+    run: |
+      $REGION_MAP = @{ 'us-east-1'='us'; 'eu-west-1'='ie' }
+      
+      $TG_ENV = ConvertTo-Json @{
+        ENV = "asset-$( $REGION_MAP.get('${{ inputs.aws_region }}')  )-$( '${{ inputs.environment }}'.toLower() )"
+      } -Compress 
+      echo "approve_environment=PREPROD" | Out-File -Path $env:GITHUB_OUTPUT -Append -Encoding Utf8
+      echo "TG_ENV=$TG_ENV" | Out-File -Path $env:GITHUB_OUTPUT -Append -Encoding Utf8
+  deploy_first_module:
+    uses: .github/workflows/terragrunt-apply-stack.yaml
+    with:
+      working-directory: ./infrastructure/10 - first_module
+      aws_region: us-east-1
+      approve_environment: ${{ steps.build-environment.outputs.approve_environment }}

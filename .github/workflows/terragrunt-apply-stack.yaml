@@ -1,15 +1,19 @@
 name: Apply Terragrunt stack
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       working-directory:
         description: Path to terragrunt stack
-        default: ./infrastructure/10 - first_module
+        required: true
       aws_region:
         description: Region for deployment
-        default: us-east-1
+        required: true
       approve_environment:
-        default: PREPROD
+        description: Environment for select approvers
+        required: true
+      tg_environment:
+        required: true
+        description: Json environment variables for terragrunt
 jobs:
   plan:
     runs-on: ubuntu-latest
@@ -47,14 +51,19 @@ jobs:
 
       - name: Terragrunt plan
         id: plan
+        env: ${{ fromJson(inputs.tg_environment) }}
         working-directory: ${{ inputs.working-directory }}
         run: terragrunt plan  -detailed-exitcode -out=tfstate.plan -input=false
 
       - name: Terragrunt show plan
+        env: ${{ fromJson(inputs.tg_environment) }}
+        if: ${{ steps.plan.outputs.exitcode == 2 }}
         working-directory: ${{ inputs.working-directory }}
         run: terragrunt show tfstate.plan
 
       - uses: actions/upload-artifact@v2
+        env: ${{ fromJson(inputs.tg_environment) }}
+        if: ${{ steps.plan.outputs.exitcode == 2 }}
         with:
           name: terraform-plan
           path: ${{ inputs.working-directory }}/tfstate.plan
@@ -100,6 +109,7 @@ jobs:
           path: ${{ inputs.working-directory }}
 
       - name: Terragrunt apply
+        env: ${{ fromJson(inputs.tg_environment) }}
         working-directory: ${{ inputs.working-directory }}
         run:  terragrunt apply tfstate.plan
 
