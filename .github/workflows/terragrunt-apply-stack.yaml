@@ -1,6 +1,9 @@
 name: Apply Terragrunt stack
 on:
   workflow_dispatch:
+    inputs:
+      working-directory:
+        description: Path to terragrunt stack
 jobs:
   apply-stack:
     runs-on: ubuntu-latest
