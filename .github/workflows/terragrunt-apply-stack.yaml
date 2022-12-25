@@ -24,7 +24,7 @@ jobs:
     outputs:
       exitcode: ${{ steps.plan.outputs.exitcode }}
     steps:
-      - run: echo '${{ inputs.tg_environment }}'
+      - run: echo '${{ inputs.approve_environment }}'
 #        env: ${{ fromJson(inputs.tg_environment) }}
 
       - uses: actions/checkout@v3
