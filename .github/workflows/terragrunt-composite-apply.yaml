@@ -19,10 +19,11 @@ jobs:
         id: build-environment
         run: |
           $REGION_MAP = @{ 'us-east-1'='us'; 'eu-west-1'='ie' }
+          $APPROVE_ENV_MAP = @{ 'LAB' = 'PREPROD'; 'DEV' = 'PREPROD'; 'QA' = 'PREPROD'; 'PPE' = 'PROD'; 'PROD' = 'PROD' }
           $TG_ENV = ConvertTo-Json @{
             ENV = "asset-$( $REGION_MAP['${{ inputs.aws_region }}']  )-$( '${{ inputs.environment }}'.toLower() )"
           } -Compress 
-          echo "approve_environment=PREPROD" | Out-File -Path $env:GITHUB_OUTPUT -Append -Encoding Utf8
+          echo "approve_environment=$( $APPROVE_ENV_MAP['${{ inputs.environment }}'] )" | Out-File -Path $env:GITHUB_OUTPUT -Append -Encoding Utf8
           echo "TG_ENV=$TG_ENV" | Out-File -Path $env:GITHUB_OUTPUT -Append -Encoding Utf8
   deploy_first_module:
     needs: build-environment
