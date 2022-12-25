@@ -1,0 +1,6 @@
+name: Prepare terragrunt env
+runs:
+  using: "composite"
+  steps:
+    - run: echo prepare-env
+      shell: bash

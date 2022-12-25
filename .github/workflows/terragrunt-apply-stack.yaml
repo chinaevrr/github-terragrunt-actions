@@ -8,4 +8,5 @@ jobs:
   apply-stack:
     runs-on: ubuntu-latest
     steps:
-      - run: echo 'Dummy job'
+      - name: Prepare env
+        uses: .github/actions/terragrunt-prepare-env.yaml
