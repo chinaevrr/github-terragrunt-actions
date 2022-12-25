@@ -47,12 +47,12 @@ jobs:
 
       - name: Terragrunt show plan
         working-directory: ${{ inputs.working-directory }}
-        run: terragrunt show tf.plan
+        run: terragrunt show tfstate.plan
 
       - uses: actions/upload-artifact@v2
         with:
           name: terraform-plan
-          path: ${{ inputs.working-directory }}/tf.plan
+          path: ${{ inputs.working-directory }}/tfstate.plan
 
   apply:
     needs: plan
