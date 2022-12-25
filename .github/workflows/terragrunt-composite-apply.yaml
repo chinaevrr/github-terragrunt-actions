@@ -11,8 +11,12 @@ on:
 jobs:
   build-environment:
     runs-on: ubuntu-latest
+    outputs:
+      approve_environment: ${{ steps.build-environment.outputs.approve_environment }}
+      TG_ENV: ${{ steps.build-environment.outputs.TG_ENV }}
     steps:
       - shell: pwsh
+        id: build-environment
         run: |
           $REGION_MAP = @{ 'us-east-1'='us'; 'eu-west-1'='ie' }
           $TG_ENV = ConvertTo-Json @{
