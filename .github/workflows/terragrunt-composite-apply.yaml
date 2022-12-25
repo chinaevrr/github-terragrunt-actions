@@ -12,12 +12,10 @@ on:
 jobs:
   build-environment:
     runs-on: ubuntu-latest
-    shell: pwsh
     steps:
       - shell: pwsh
         run: |
           $REGION_MAP = @{ 'us-east-1'='us'; 'eu-west-1'='ie' }
-          
           $TG_ENV = ConvertTo-Json @{
             ENV = "asset-$( $REGION_MAP.get('${{ inputs.aws_region }}')  )-$( '${{ inputs.environment }}'.toLower() )"
           } -Compress 
