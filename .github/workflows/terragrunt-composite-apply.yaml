@@ -1,4 +1,4 @@
-name: Apply Terragrunt stack
+name: Apply composite terragrunt
 on:
   workflow_dispatch:
     inputs:
