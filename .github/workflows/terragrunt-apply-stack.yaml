@@ -61,7 +61,7 @@ jobs:
     needs: plan
     runs-on: ubuntu-latest
     steps:
-      - run: echo '${{ needs.plan.exitcode }}'
+      - run: echo '${{ needs.plan.outputs.exitcode }}'
 
       - uses: actions/checkout@v3
 
