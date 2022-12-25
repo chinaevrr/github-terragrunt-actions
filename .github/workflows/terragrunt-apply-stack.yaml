@@ -24,9 +24,6 @@ jobs:
     outputs:
       exitcode: ${{ steps.plan.outputs.exitcode }}
     steps:
-      - run: echo '${{ inputs.approve_environment }}'
-#        env: ${{ fromJson(inputs.tg_environment) }}
-
       - uses: actions/checkout@v3
 
       - uses: hashicorp/setup-terraform@v2

@@ -32,3 +32,4 @@ jobs:
       aws_region: us-east-1
       approve_environment: ${{ needs.build-environment.outputs.approve_environment }}
       tg_environment: ${{ needs.build-environment.outputs.TG_ENV }}
+    secrets: inherit
