@@ -8,6 +8,8 @@ on:
       aws_region:
         description: Region for deployment
         default: us-east-1
+      approve_environment:
+        default: PREPROD
 jobs:
   plan:
     runs-on: ubuntu-latest
