@@ -50,10 +50,9 @@ jobs:
         run: terragrunt show tf.plan
 
       - uses: actions/upload-artifact@v2
-        working-directory: ${{ inputs.working-directory }}
         with:
           name: terraform-plan
-          path: tf.plan
+          path: ${{ inputs.working-directory }}/tf.plan
 
   apply:
     needs: plan
@@ -89,7 +88,6 @@ jobs:
           aws-region: ${{ inputs.aws_region }}
 
       - uses: actions/download-artifact@v2
-        working-directory: ${{ inputs.working-directory }}
         with:
           name: terraform-plan
 
