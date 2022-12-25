@@ -11,6 +11,8 @@ on:
 jobs:
   plan:
     runs-on: ubuntu-latest
+    outputs:
+      exitcode: ${{ steps.plan.exitcode }}
     steps:
       - uses: actions/checkout@v3
 
@@ -42,6 +44,7 @@ jobs:
           aws-region: ${{ inputs.aws_region }}
 
       - name: Terragrunt plan
+        id: plan
         working-directory: ${{ inputs.working-directory }}
         run: terragrunt plan  -detailed-exitcode -out=tfstate.plan -input=false
 
@@ -58,6 +61,7 @@ jobs:
     needs: plan
     runs-on: ubuntu-latest
     steps:
+      - run: echo ${{ needs.plan.exitcode }}
       - uses: actions/checkout@v3
 
       - uses: hashicorp/setup-terraform@v2
