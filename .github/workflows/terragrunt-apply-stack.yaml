@@ -63,7 +63,7 @@ jobs:
         env: ${{ fromJson(inputs.tg_environment) }}
         if: ${{ steps.plan.outputs.exitcode == 2 }}
         working-directory: ${{ inputs.working-directory }}
-        run: terragrunt show tfstate.plan && terragrunt show tfstate.plan >> $GITHUB_STEP_SUMMARY
+        run: terragrunt show tfstate.plan && terragrunt show -no-color tfstate.plan >> $GITHUB_STEP_SUMMARY
 
       - uses: actions/upload-artifact@v2
         env: ${{ fromJson(inputs.tg_environment) }}
