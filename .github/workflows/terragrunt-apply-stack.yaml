@@ -63,6 +63,7 @@ jobs:
     needs: plan
     if: ${{ needs.plan.outputs.exitcode == 2 }}
     runs-on: ubuntu-latest
+    environment: ${{ inputs.approve_environment }}
     steps:
       - uses: actions/checkout@v3
 
