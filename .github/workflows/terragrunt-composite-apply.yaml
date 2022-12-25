@@ -13,14 +13,15 @@ jobs:
   build-environment:
     runs-on: ubuntu-latest
     shell: pwsh
-    run: |
-      $REGION_MAP = @{ 'us-east-1'='us'; 'eu-west-1'='ie' }
-      
-      $TG_ENV = ConvertTo-Json @{
-        ENV = "asset-$( $REGION_MAP.get('${{ inputs.aws_region }}')  )-$( '${{ inputs.environment }}'.toLower() )"
-      } -Compress 
-      echo "approve_environment=PREPROD" | Out-File -Path $env:GITHUB_OUTPUT -Append -Encoding Utf8
-      echo "TG_ENV=$TG_ENV" | Out-File -Path $env:GITHUB_OUTPUT -Append -Encoding Utf8
+    steps:
+      - run: |
+          $REGION_MAP = @{ 'us-east-1'='us'; 'eu-west-1'='ie' }
+          
+          $TG_ENV = ConvertTo-Json @{
+            ENV = "asset-$( $REGION_MAP.get('${{ inputs.aws_region }}')  )-$( '${{ inputs.environment }}'.toLower() )"
+          } -Compress 
+          echo "approve_environment=PREPROD" | Out-File -Path $env:GITHUB_OUTPUT -Append -Encoding Utf8
+          echo "TG_ENV=$TG_ENV" | Out-File -Path $env:GITHUB_OUTPUT -Append -Encoding Utf8
   deploy_first_module:
     runs-on: ubuntu-latest
     needs: build-environment
