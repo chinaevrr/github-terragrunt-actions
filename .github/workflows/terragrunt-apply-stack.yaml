@@ -8,5 +8,14 @@ jobs:
   apply-stack:
     runs-on: ubuntu-latest
     steps:
-      - name: Prepare env
-        uses: actions/terragrunt-prepare-env.yaml@build/terragrunt-apply-stack
+      - uses: actions/checkout@v3
+
+      - uses: hashicorp/setup-terraform@v2
+
+      - uses: autero1/action-terragrunt@v1.1.0
+
+      - uses: mdgreenwald/mozilla-sops-action@v1.4.0
+
+      - shell: pwsh
+        run: |
+          Get-ChildItem -Filter *.enc.json -Recurse | %{ sops -d $_.FullName > $_.FullName -replace ".enc.json$", ".json" }
