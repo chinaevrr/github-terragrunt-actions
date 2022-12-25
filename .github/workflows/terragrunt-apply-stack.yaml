@@ -17,6 +17,17 @@ jobs:
           terragrunt_version: 0.42.5
       - uses: mdgreenwald/mozilla-sops-action@v1.4.0
 
+      - name: Configure CICD AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.CICD_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.CICD_AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
       - shell: pwsh
+        env:
+          SOPS_KMS_ARN: ${{ secrets.SOPS_KMS_ARN }}
         run: |
           Get-ChildItem -Filter *.enc.json -Recurse | %{ sops -d $_.FullName > ( $_.FullName -replace ".enc.json$", ".json" ) }
+
+
