@@ -4,8 +4,12 @@ on:
     inputs:
       working-directory:
         description: Path to terragrunt stack
+        default: ./infrastructure/10 - first_module
+      aws_region:
+        description: Region for deployment
+        default: us-east-1
 jobs:
-  apply-stack:
+  plan:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -30,4 +34,17 @@ jobs:
         run: |
           Get-ChildItem -Filter *.enc.json -Recurse | %{ sops -d $_.FullName > ( $_.FullName -replace ".enc.json$", ".json" ) }
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.aws_region }}
 
+      - name: Terragrunt plan
+        working-directory: ${{ inputs.working-directory }}
+        run: terragrunt plan -out tf.plan > /dev/null
+
+      - name: Terragrunt show plan
+        working-directory: ${{ inputs.working-directory }}
+        run: terragrunt show tf.plan
