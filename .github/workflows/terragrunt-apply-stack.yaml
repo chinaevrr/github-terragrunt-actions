@@ -13,7 +13,8 @@ jobs:
       - uses: hashicorp/setup-terraform@v2
 
       - uses: autero1/action-terragrunt@v1.2.0
-
+        with:
+          terragrunt_version: 0.42.5
       - uses: mdgreenwald/mozilla-sops-action@v1.4.0
 
       - shell: pwsh
