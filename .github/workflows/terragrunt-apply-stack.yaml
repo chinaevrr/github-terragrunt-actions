@@ -59,10 +59,9 @@ jobs:
 
   apply:
     needs: plan
+    if: ${{ needs.plan.outputs.exitcode == 2 }}
     runs-on: ubuntu-latest
     steps:
-      - run: echo '${{ needs.plan.outputs.exitcode }}'
-
       - uses: actions/checkout@v3
 
       - uses: hashicorp/setup-terraform@v2
