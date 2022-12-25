@@ -12,7 +12,7 @@ jobs:
   plan:
     runs-on: ubuntu-latest
     outputs:
-      exitcode: ${{ toJson(steps.plan.outputs) }}
+      exitcode: ${{ toJson(steps.plan) }}
     steps:
       - uses: actions/checkout@v3
 
