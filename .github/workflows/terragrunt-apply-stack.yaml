@@ -9,4 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Prepare env
-        uses: actions/terragrunt-prepare-env.yaml
+        uses: actions/terragrunt-prepare-env.yaml@build/terragrunt-apply-stack
