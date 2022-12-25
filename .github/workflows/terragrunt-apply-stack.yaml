@@ -94,5 +94,5 @@ jobs:
 
       - name: Terragrunt show plan
         working-directory: ${{ inputs.working-directory }}
-        run: terragrunt show tfstate.plan
+        run: ls
 
