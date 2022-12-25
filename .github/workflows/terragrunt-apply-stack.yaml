@@ -92,7 +92,7 @@ jobs:
           name: terraform-plan
           path: ${{ inputs.working-directory }}
 
-      - name: Terragrunt show plan
+      - name: Terragrunt apply
         working-directory: ${{ inputs.working-directory }}
-        run: terragrunt show tfstate.plan
+        run: terragrunt apply input=false tfstate.plan
 
