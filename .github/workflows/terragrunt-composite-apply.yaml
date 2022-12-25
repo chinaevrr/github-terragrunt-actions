@@ -21,11 +21,3 @@ jobs:
           } -Compress 
           echo "approve_environment=PREPROD" | Out-File -Path $env:GITHUB_OUTPUT -Append -Encoding Utf8
           echo "TG_ENV=$TG_ENV" | Out-File -Path $env:GITHUB_OUTPUT -Append -Encoding Utf8
-  deploy_first_module:
-    runs-on: ubuntu-latest
-    needs: build-environment
-    uses: ./.github/workflows/terragrunt-apply-stack.yaml
-    with:
-      working-directory: ./infrastructure/10 - first_module
-      aws_region: us-east-1
-      approve_environment: ${{ steps.build-environment.outputs.approve_environment }}
