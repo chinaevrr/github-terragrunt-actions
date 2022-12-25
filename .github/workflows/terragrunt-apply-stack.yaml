@@ -90,9 +90,9 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: terraform-plan
-          path: ${{ inputs.working-directory }}/tfstate.plan
+          path: ${{ inputs.working-directory }}
 
       - name: Terragrunt show plan
         working-directory: ${{ inputs.working-directory }}
-        run: ls -la
+        run: terragrunt show tfstate.plan
 
