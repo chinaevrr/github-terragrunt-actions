@@ -1,0 +1,17 @@
+name: Apply composite terragrunt
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [LAB, DEV, QA, PPE, PROD]
+      aws_region:
+        description: Region for deployment
+        type: choice
+        options: [us-east-1, eu-west-1 ]
+jobs:
+  build-environment:
+    runs-on: ubuntu-latest
+    steps:
+      - shell: pwsh
+        run: echo 'qwerty'
