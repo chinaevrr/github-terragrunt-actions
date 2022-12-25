@@ -29,7 +29,7 @@ jobs:
     needs: build-environment
     uses: ./.github/workflows/terragrunt-apply-stack.yaml
     with:
-      working-directory: ./infrastructure/10 - first_module
+      working-directory: ./infrastructure/10-first_module
       aws_region: us-east-1
       approve_environment: ${{ needs.build-environment.outputs.approve_environment }}
       tg_environment: ${{ needs.build-environment.outputs.TG_ENV }}
