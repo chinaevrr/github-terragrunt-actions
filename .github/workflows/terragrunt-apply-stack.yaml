@@ -94,5 +94,5 @@ jobs:
 
       - name: Terragrunt apply
         working-directory: ${{ inputs.working-directory }}
-        run:  terraform apply tfstate.plan
+        run:  terragrunt apply tfstate.plan
 
