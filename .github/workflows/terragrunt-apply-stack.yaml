@@ -43,7 +43,7 @@ jobs:
 
       - name: Terragrunt plan
         working-directory: ${{ inputs.working-directory }}
-        run: terragrunt plan -details-exitcode -out tf.plan -input=false
+        run: terragrunt plan -details-exitcode -input=false -out tf.plan
 
       - name: Terragrunt show plan
         working-directory: ${{ inputs.working-directory }}
