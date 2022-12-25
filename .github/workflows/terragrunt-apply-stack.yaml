@@ -3,15 +3,19 @@ on:
   workflow_call:
     inputs:
       working-directory:
+        type: string
         description: Path to terragrunt stack
         required: true
       aws_region:
+        type: string
         description: Region for deployment
         required: true
       approve_environment:
+        type: string
         description: Environment for select approvers
         required: true
       tg_environment:
+        type: string
         required: true
         description: Json environment variables for terragrunt
 jobs:
