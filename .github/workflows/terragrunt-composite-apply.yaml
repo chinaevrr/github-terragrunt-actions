@@ -27,3 +27,4 @@ jobs:
       working-directory: ./infrastructure/10 - first_module
       aws_region: us-east-1
       approve_environment: ${{ needs.build-environment.outputs.approve_environment }}
+      tg_environment: ${{ needs.build-environment.outputs.TG_ENV }}
