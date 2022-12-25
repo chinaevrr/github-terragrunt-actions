@@ -14,7 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     shell: pwsh
     steps:
-      - run: |
+      - shell: pwsh
+        run: |
           $REGION_MAP = @{ 'us-east-1'='us'; 'eu-west-1'='ie' }
           
           $TG_ENV = ConvertTo-Json @{
